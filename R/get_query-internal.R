@@ -62,15 +62,15 @@ get_query <- function(query, type = "apa")
 
     ## Geo coordinates (returns NA if an error is generated)
     ## These are available on the actual page of the ad
-    raw_ad_page <- xml2::read_html(url)
-    geo <- na_error({
-      rvest::html_nodes(raw_ad_page, "meta[name='geo.position']") %>%
-      rvest::html_attr("content") %>%
-      stringr::str_split(";")
-    })
-
-    lat <- as.numeric(geo[[1]][1])
-    lon <- as.numeric(geo[[1]][2])
+    # raw_ad_page <- xml2::read_html(url)
+    # geo <- na_error({
+    #   rvest::html_nodes(raw_ad_page, "meta[name='geo.position']") %>%
+    #   rvest::html_attr("content") %>%
+    #   stringr::str_split(";")
+    # })
+    #
+    # lat <- as.numeric(geo[[1]][1])
+    # lon <- as.numeric(geo[[1]][2])
 
     ## Approx location (returns NA if an error is generated)
     locale <- na_error({

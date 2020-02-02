@@ -84,7 +84,8 @@ rentals <- function(location = "seattle", area = "all", base_url = NULL,
   }
   if(!(missing(bedrooms))){
     check_class(bedrooms, "numeric")
-    queries <- c(queries, paste0("bedrooms=", bedrooms))
+    queries <- c(queries, paste0("min_bedrooms=", bedrooms))
+    queries <- c(queries, paste0("max_bedrooms=", bedrooms))
   }
   if(!(missing(bathrooms))){
     check_class(bathrooms, "numeric")
