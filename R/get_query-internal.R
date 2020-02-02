@@ -23,11 +23,16 @@ get_query <- function(query, type = "apa")
   ## Create data vectors
   create_vector(env = environment(),
                 c("titles", "prices", "dates", "urls", "locales", "beds",
-                  "sqfts"))
+                  "sqfts", "lats", "lons"))
 
 
   ## Loop through to make sure no data is missing
   for(i in 1:length(raw_ads)){
+
+    if(i %% 10 == 0) {
+      print(paste("Status: ", i, "/", length(raw_ads)))
+    }
+
     ## Get the current post
     post <- raw_ads[i]
 
@@ -54,6 +59,18 @@ get_query <- function(query, type = "apa")
     url <- post %>%
       rvest::html_node(".result-title") %>%
       rvest::html_attr("href")
+
+    ## Geo coordinates (returns NA if an error is generated)
+    ## These are available on the actual page of the ad
+    raw_ad_page <- xml2::read_html(url)
+    geo <- na_error({
+      rvest::html_nodes(raw_ad_page, "meta[name='geo.position']") %>%
+      rvest::html_attr("content") %>%
+      stringr::str_split(";")
+    })
+
+    lat <- as.numeric(geo[[1]][1])
+    lon <- as.numeric(geo[[1]][2])
 
     ## Approx location (returns NA if an error is generated)
     locale <- na_error({
@@ -91,6 +108,8 @@ get_query <- function(query, type = "apa")
     locales <- c(locales, locale)
     beds    <- c(beds,    bed)
     sqfts   <- c(sqfts,   sqft)
+    lats    <- c(lats,    lat)
+    lons    <- c(lons,    lon)
   }
 
   ## Remove parens from locations
@@ -104,6 +123,8 @@ get_query <- function(query, type = "apa")
                            Bedrooms = beds,
                            SqFt     = sqfts,
                            Location = locales,
+                           Latitude = lats,
+                           Longitude= lons,
                            URL      = urls)
 
   return(clean_data)
