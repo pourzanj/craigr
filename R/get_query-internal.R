@@ -23,7 +23,7 @@ get_query <- function(query, type = "apa")
   ## Create data vectors
   create_vector(env = environment(),
                 c("titles", "prices", "dates", "urls", "locales", "beds",
-                  "sqfts", "lats", "lons"))
+                  "sqfts"))
 
 
   ## Loop through to make sure no data is missing
@@ -108,8 +108,8 @@ get_query <- function(query, type = "apa")
     locales <- c(locales, locale)
     beds    <- c(beds,    bed)
     sqfts   <- c(sqfts,   sqft)
-    lats    <- c(lats,    lat)
-    lons    <- c(lons,    lon)
+    # lats    <- c(lats,    lat)
+    # lons    <- c(lons,    lon)
   }
 
   ## Remove parens from locations
@@ -123,8 +123,6 @@ get_query <- function(query, type = "apa")
                            Bedrooms = beds,
                            SqFt     = sqfts,
                            Location = locales,
-                           Latitude = lats,
-                           Longitude= lons,
                            URL      = urls) %>%
     dplyr::as_tibble() %>%
     mutate(Date = lubridate::ymd_hm(Date))
