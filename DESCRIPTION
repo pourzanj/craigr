@@ -11,6 +11,8 @@ LazyData: TRUE
 Imports:
   rvest,
   stringr,
+  dplyr,
+  lubridate,
   xml2,
   RCurl
 Depends:

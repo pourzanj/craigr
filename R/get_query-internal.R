@@ -125,7 +125,9 @@ get_query <- function(query, type = "apa")
                            Location = locales,
                            Latitude = lats,
                            Longitude= lons,
-                           URL      = urls)
+                           URL      = urls) %>%
+    dplyr::as_tibble() %>%
+    mutate(Date = lubridate::ymd_hm(Date))
 
   return(clean_data)
 }
