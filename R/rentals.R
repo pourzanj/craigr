@@ -151,6 +151,8 @@ rentals <- function(location = "seattle", area = "all", base_url = NULL,
   # Go through each page of craigslist using a loop
   for(i in 0:num_pages)
   {
+    print(paste0("Page ", i, " of ", num_pages))
+
     if(i == 0){
       ## Nothing is appended to the URL for the first page
       all_results <- get_query(query_url)
